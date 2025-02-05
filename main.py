@@ -3,6 +3,11 @@ import openpyxl
 
 
 def main(page: ft.Page):
+    page.appbar = ft.AppBar(
+        title=ft.Text("Welcome to My App"),
+        bgcolor=ft.Colors.GREEN
+    )
+    
     wb = openpyxl.load_workbook("db.xlsx")
     sh = wb["Sheet1"]
 
