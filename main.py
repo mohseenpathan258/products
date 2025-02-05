@@ -3,7 +3,7 @@ import openpyxl
 
 
 def main(page: ft.Page):
-    wb = openpyxl.load_workbook("assets/db.xlsx")
+    wb = openpyxl.load_workbook("db.xlsx")
     sh = wb["Sheet1"]
 
     cell_a2 = sh["A2"]
