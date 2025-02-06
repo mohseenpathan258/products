@@ -409,6 +409,7 @@ def main(page: ft.Page):
     page.padding = 0
     page.spacing = 0
     page.bgcolor = ft.Colors.GREY_100
+    page.theme = ft.ThemeMode.LIGHT
 
     # alert dialog box
     dialog_box = ft.AlertDialog(
