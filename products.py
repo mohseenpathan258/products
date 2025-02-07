@@ -35,10 +35,9 @@ class Products(ft.Column):
             controls=[
                 # app_bar container
                 ft.Container(
-                    height=110,
+                    height=70,
                     bgcolor=ft.Colors.YELLOW,
-                    alignment=ft.alignment.bottom_left,
-                    padding=ft.padding.only(left=10, bottom=10, right=10),
+                    alignment=ft.alignment.center_left,
                     content=ft.Row(
                         controls=[
                             # app_bar home button
