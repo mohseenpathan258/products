@@ -450,7 +450,7 @@ def main(page: ft.Page):
         ),
 
         # app background color
-        bgcolor=ft.Colors.GREEN,
+        bgcolor="#36618E",
 
         # action button on the end of appbar
         actions=[
