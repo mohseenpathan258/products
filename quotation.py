@@ -140,75 +140,7 @@ class Quotation(ft.Column):
                             )
                         )
                     ]
-                ),
-
-                # # data row content
-                # ft.Row(
-                #     expand=True,
-                #     spacing=1,
-                #     controls=[
-                #         # Sr No column content
-                #         ft.Container(
-                #             padding=ft.padding.only(top=10, bottom=10),
-                #             width=60,
-                #             alignment=ft.alignment.center,
-                #             bgcolor=ft.Colors.GREY_100,
-                #             content=ft.Text(
-                #                 value="1",
-                #                 color=ft.Colors.BLACK,
-                #             )
-                #         ),
-                #
-                #         # Goods Description column content
-                #         ft.Container(
-                #             padding=ft.padding.only(top=10, bottom=10, left=10, right=10),
-                #             width=200,
-                #             alignment=ft.alignment.center_left,
-                #             bgcolor=ft.Colors.GREY_100,
-                #             content=ft.Text(
-                #                 value="Hydraulic Valve SD8/1 11223344",
-                #                 color=ft.Colors.BLACK
-                #             )
-                #         ),
-                #
-                #         # Quantity column content
-                #         ft.Container(
-                #             padding=ft.padding.only(top=10, bottom=10),
-                #             width=80,
-                #             alignment=ft.alignment.center,
-                #             bgcolor=ft.Colors.GREY_100,
-                #             content=ft.Text(
-                #                 value="1",
-                #                 color=ft.Colors.BLACK
-                #             )
-                #         ),
-                #
-                #         # Price column
-                #         ft.Container(
-                #             padding=ft.padding.only(top=10, bottom=10),
-                #             width=70,
-                #             alignment=ft.alignment.center,
-                #             bgcolor=ft.Colors.GREY_100,
-                #             content=ft.Text(
-                #                 value="12000",
-                #                 color=ft.Colors.BLACK
-                #             )
-                #         )
-                #     ]
-                # ),
-                #
-                # # data row border
-                # ft.Row(
-                #     expand=True,
-                #     spacing=1,
-                #     controls=[
-                #         ft.Container(
-                #             expand=True,
-                #             height=1,
-                #             bgcolor=ft.Colors.GREY_200
-                #         )
-                #     ]
-                # )
+                )
             ]
         )
 
