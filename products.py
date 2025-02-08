@@ -430,9 +430,6 @@ class Products(ft.Column):
 
         self.spacing = 0
         self.controls = [
-            # remove it later
-            ft.Container(height=30),
-
             self.app_bar,
 
             self.search_box,
