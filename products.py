@@ -1,6 +1,7 @@
 import flet as ft
 import openpyxl
 import time
+import os
 
 
 class Products(ft.Column):
@@ -9,8 +10,15 @@ class Products(ft.Column):
 
         self.page = page
 
+        # used to add quotation data
+        if self.page.client_storage.contains_key("quotation"):
+            self.quotation_list = self.page.client_storage.get("quotation")
+        else:
+            self.quotation_list = []
+
         # load workbook
-        self.wb = openpyxl.load_workbook(filename="products_db.xlsx")
+        self.file_path = "products_db.xlsx"
+        self.wb = openpyxl.load_workbook(filename=os.path.abspath(self.file_path))
         # select sheet
         self.sh = self.wb["Sheet1"]
 
@@ -20,6 +28,11 @@ class Products(ft.Column):
             surface_tint_color=ft.Colors.WHITE,
             scrollable=True,
             modal=True,
+        )
+
+        # snack bar
+        self.snack_bar = ft.SnackBar(
+            content=ft.Text()
         )
 
         # visibility btn to control visibility of purchase rate column
@@ -38,6 +51,7 @@ class Products(ft.Column):
                     height=70,
                     bgcolor=ft.Colors.YELLOW,
                     alignment=ft.alignment.center_left,
+                    # padding=ft.padding.only(left=10, bottom=10, right=10),
                     content=ft.Row(
                         controls=[
                             # app_bar home button
@@ -94,7 +108,31 @@ class Products(ft.Column):
                                                         ft.IconButton(
                                                             icon=ft.Icons.REQUEST_QUOTE,
                                                             icon_color=ft.Colors.GREEN,
-                                                            on_click=None
+                                                            on_click=lambda e: self.page.go("/quotation")
+                                                        )
+                                                    ]
+                                                )
+                                            ),
+
+                                            # divider
+                                            ft.PopupMenuItem(),
+
+                                            # clear quotation
+                                            ft.PopupMenuItem(
+                                                content=ft.Row(
+                                                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                                                    controls=[
+                                                        # clear quotation title
+                                                        ft.Text(
+                                                            value="Clear Quotation",
+                                                            color=ft.Colors.BLACK
+                                                        ),
+
+                                                        # icon button to clear quotation
+                                                        ft.IconButton(
+                                                            icon=ft.Icons.REQUEST_QUOTE,
+                                                            icon_color=ft.Colors.RED,
+                                                            on_click=self.clear_quotation
                                                         )
                                                     ]
                                                 )
@@ -392,6 +430,9 @@ class Products(ft.Column):
 
         self.spacing = 0
         self.controls = [
+            # remove it later
+            ft.Container(height=30),
+
             self.app_bar,
 
             self.search_box,
@@ -429,8 +470,22 @@ class Products(ft.Column):
                                 bgcolor=ft.Colors.GREEN,
                                 content=ft.Icon(
                                     name=ft.Icons.ADD,
-                                    color=ft.Colors.WHITE
-                                )
+                                    color=ft.Colors.WHITE,
+                                ),
+                                data=[
+                                    str(self.sh.cell(row=i, column=1).value),  # Sr No value
+                                    str(self.sh.cell(row=i, column=2).value),  # Goods Description value
+                                    str(self.sh.cell(row=i, column=3).value),  # Part number value
+                                    f"{self.sh.cell(row=i, column=4).value} \u20B9",  # Purchase Rate value
+                                    f"{sale_rate} \u20B9",  # Sale rate value
+                                    str(self.sh.cell(row=i, column=5).value),  # Stock value
+                                    str(self.sh.cell(row=i, column=6).value),  # HSN Code value
+                                    f"{self.sh.cell(row=i, column=7).value}%",  # GST value
+                                    f"{round(sale_rate * 0.18 + sale_rate)} \u20B9",  # Total value
+                                    "Sr No",  # column name
+                                    "1",  # column number in Excel file
+                                ],
+                                on_click=self.prepare_quotation
                             )
                         ),
 
@@ -685,7 +740,7 @@ class Products(ft.Column):
 
             # if stock is zero than show it in red color
             if self.sh.cell(row=i, column=5).value == 0:
-                self.data_row.controls[i-2].controls[6].content.color = ft.Colors.RED
+                self.data_row.controls[i - 2].controls[6].content.color = ft.Colors.RED
 
             # if no part number available self.show empty cell
             if self.sh.cell(row=i, column=3).value is None:
@@ -696,6 +751,14 @@ class Products(ft.Column):
                 self.data_row.controls[i - 2].visible = True
             else:
                 self.data_row.controls[i - 2].visible = False
+
+            # to change the quotation btn to remove icon if quotation is not empty
+            # to change the quotation btn to add icon if quotation is empty
+            check_quotation_already_added = [self.data_row.controls[i - 2].controls[0].content.data[0], self.data_row.controls[i - 2].controls[0].content.data[1], self.data_row.controls[i - 2].controls[0].content.data[5], self.data_row.controls[i - 2].controls[0].content.data[4]]
+            if check_quotation_already_added in self.quotation_list:
+                self.data_row.controls[i - 2].controls[0].content.content.name = ft.Icons.REMOVE
+                self.data_row.controls[i - 2].controls[0].content.bgcolor = ft.Colors.RED
+                self.page.update()
 
     # search validations
     def search_field_validation(self, e):
@@ -874,7 +937,7 @@ class Products(ft.Column):
         self.sh.cell(row=select_row, column=7).value = int(self.dialog_box.content.controls[19].value)
 
         # save products_db
-        self.wb.save("products_db.xlsx")
+        self.wb.save(os.path.abspath(self.file_path))
 
         # insert done icon at o index in dialog_box actions
         self.dialog_box.actions.insert(
@@ -1084,7 +1147,7 @@ class Products(ft.Column):
                          column=int(e.control.data.control.data[10])).value = str(self.dialog_box.content.value)
 
         # save Excel file
-        self.wb.save("products_db.xlsx")
+        self.wb.save(os.path.abspath(self.file_path))
 
         # add done icon to show that record is updated
         self.dialog_box.actions.insert(
@@ -1105,3 +1168,44 @@ class Products(ft.Column):
 
         self.page.close(self.dialog_box)
         self.dialog_box.actions.clear()
+
+    # prepare quotation
+    def prepare_quotation(self, e):
+        if e.control.content.name == ft.Icons.ADD:
+            quotation_list_row = [e.control.data[0], e.control.data[1], e.control.data[5], e.control.data[4]]
+            self.quotation_list.append(quotation_list_row)
+            self.page.client_storage.set("quotation", self.quotation_list)
+
+            self.page.client_storage.set("add_remove_quotation_icon", ft.Icons.REMOVE)
+            e.control.content.name = ft.Icons.REMOVE
+            e.control.bgcolor = ft.Colors.RED
+            self.snack_bar.content.value = f"{e.control.data[1]} added to quotation"
+        else:
+            remove_quote_row = [e.control.data[0], e.control.data[1], e.control.data[5], e.control.data[4]]
+            if remove_quote_row in self.quotation_list:
+                self.quotation_list.remove(remove_quote_row)
+                self.page.client_storage.set("quotation", self.quotation_list)
+
+            self.page.client_storage.set("add_remove_quotation_icon", ft.Icons.ADD)
+            e.control.content.name = ft.Icons.ADD
+            e.control.bgcolor = ft.Colors.GREEN
+            self.snack_bar.content.value = f"{e.control.data[1]} removed from quotation"
+
+        self.page.open(self.snack_bar)
+
+        self.page.update()
+
+    # clear quotation
+    def clear_quotation(self, e):
+        self.quotation_list.clear()
+        self.page.client_storage.remove("quotation")
+
+        # to set quotation btn to add icon
+        for i in range(1, self.sh.max_row + 1):
+            self.data_row.controls[i - 2].controls[0].content.content.name = ft.Icons.ADD
+            self.data_row.controls[i - 2].controls[0].content.bgcolor = ft.Colors.GREEN
+
+        self.snack_bar.content.value = "Quotation cleared"
+        self.page.open(self.snack_bar)
+
+        self.page.update()
