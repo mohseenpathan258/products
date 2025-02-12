@@ -79,7 +79,7 @@ def main(page: ft.Page):
         # HomePage class instance
         home = HomePage(page, visibility_purchase_btn)
 
-        # add record to particular row (means after last row)
+        # add record to particular row (means after last row) 
         select_row = home.sh.max_row + 1
 
         # Sr No
