@@ -332,7 +332,7 @@ def main(page: ft.Page):
                 ),
 
                 # icon=ft.Icons.MENU,
-                # icon_color=ft.Colors.WHITE,
+                # icon_color=ft.Colors.WHITE, 
 
                 items=[
                     # menu heading
