@@ -298,9 +298,7 @@ def main(page: ft.Page):
                     # padding=5,
                     bgcolor=ft.Colors.WHITE,
                     border_radius=20,
-                    # content=ft.Image(
-                    #     src="logo.png"
-                    # ),
+                    
                     content=ft.Row(
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=0, run_spacing=0,
@@ -324,12 +322,6 @@ def main(page: ft.Page):
         actions=[
             ft.PopupMenuButton(
                 bgcolor=ft.Colors.WHITE,
-                # this does not work in flet app in mobile
-                # content=ft.Image(
-                #     src="menu_icon.svg",
-                #     scale=0.6,
-                #     color=ft.Colors.WHITE
-                # ),
 
                 icon=ft.Icons.MENU,
                 icon_color=ft.Colors.WHITE, 
