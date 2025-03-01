@@ -298,17 +298,17 @@ def main(page: ft.Page):
                     # padding=5,
                     bgcolor=ft.Colors.WHITE,
                     border_radius=20,
-                    content=ft.Image(
-                        src="logo.png"
-                    ),
-                    # content=ft.Row(
-                    #     alignment=ft.MainAxisAlignment.CENTER,
-                    #     spacing=0, run_spacing=0,
-                    #     controls=[
-                    #         ft.Text(value="H", scale=0.8, color=ft.Colors.BLACK, weight=ft.FontWeight.BOLD),
-                    #         ft.Text(value="R", scale=0.8, color="#008FD5", weight=ft.FontWeight.BOLD)
-                    #     ]
+                    # content=ft.Image(
+                    #     src="logo.png"
                     # ),
+                    content=ft.Row(
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        spacing=0, run_spacing=0,
+                        controls=[
+                            ft.Text(value="H", scale=0.8, color=ft.Colors.BLACK, weight=ft.FontWeight.BOLD),
+                            ft.Text(value="R", scale=0.8, color="#008FD5", weight=ft.FontWeight.BOLD)
+                        ]
+                    ),
                     on_click=lambda e: switch_page("home")
                 ),
 
@@ -325,14 +325,14 @@ def main(page: ft.Page):
             ft.PopupMenuButton(
                 bgcolor=ft.Colors.WHITE,
                 # this does not work in flet app in mobile
-                content=ft.Image(
-                    src="menu_icon.svg",
-                    scale=0.6,
-                    color=ft.Colors.WHITE
-                ),
+                # content=ft.Image(
+                #     src="menu_icon.svg",
+                #     scale=0.6,
+                #     color=ft.Colors.WHITE
+                # ),
 
-                # icon=ft.Icons.MENU,
-                # icon_color=ft.Colors.WHITE, 
+                icon=ft.Icons.MENU,
+                icon_color=ft.Colors.WHITE, 
 
                 items=[
                     # menu heading
