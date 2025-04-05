@@ -5,7 +5,7 @@ import openpyxl
 
 class HomePage(ft.Column):
     # load excel workbook and select active sheet
-    wb = openpyxl.load_workbook("assets/products_db.xlsx")
+    wb = openpyxl.load_workbook("products_db.xlsx")
     sh = wb.active
 
     # quotation list
@@ -807,7 +807,7 @@ class HomePage(ft.Column):
                 self.sh.delete_rows(self.sh.cell(row=i, column=1).row)
 
                 # saving workbook
-                self.wb.save("assets/products_db.xlsx")
+                self.wb.save("products_db.xlsx")
 
                 # to show deleted updates
                 self.add_product_content()
@@ -833,7 +833,7 @@ class HomePage(ft.Column):
                          column=int(e.control.data.control.data[10])).value = str(self.dialog_box.content.controls[2].value)
 
         # save Excel file
-        self.wb.save("assets/products_db.xlsx")
+        self.wb.save("products_db.xlsx")
 
         # add done icon to show that record is updated
         self.dialog_box.actions.insert(
