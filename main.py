@@ -2,7 +2,6 @@ import time
 import flet as ft
 from home import HomePage
 from quotation import QuotationPage
-from invoice import Invoice
 
 
 def main(page: ft.Page):
@@ -469,4 +468,4 @@ def main(page: ft.Page):
     switch_page("home")
 
 
-ft.app(target=main, assets_dir="assets", view=ft.WEB_BROWSER)
+ft.app(target=main)
